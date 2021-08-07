@@ -1,4 +1,4 @@
-# Project Name <--- FIXME
+# GRU
 
 Library Logo <--- **FIXME**
 
@@ -10,16 +10,18 @@ Description about your project. Why do you choose to build this?  <--- **FIXME**
 
 Slide about your project (if it's available) <--- **FIXME**
 
-Architecture Image <--- **FIXME**
-
+Architecture Image  <--- **FIXME**
 
 Authors:
-- Github: members github name <--- **FIXME**
-- Email: members emails <--- **FIXME**
+| # | Name | Github | Email |
+|---|------|--------|-------|
+|1|Sang Nguyen|[joeeislovely](https://github.com/joeeislovely)|nguyenminh.sangatpa@gmail.com|
+|2|Dung Nguyen|[anhdungpro97](https://github.com/anhdungpro97)|anhdung1951997@gmail.com|
+|3|Duong Tran|[ttduongtran](https://github.com/ttduongtran)|ttduongtran@gmail.com|
 
 Advisors:
-- Github: advisor github name <--- **FIXME**
-- Email: advisor emails <--- **FIXME**
+- Github: [bangoc123](https://github.com/bangoc123)
+- Email: protonxai@gmail.com
 
 ## I.  Set up environment
 - Step 1: <--- **FIXME**
