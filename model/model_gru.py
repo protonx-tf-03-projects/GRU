@@ -21,6 +21,7 @@ class GRU_RNN(tf.keras.Model):
 
     self.gru = GRU(units, embedding_size)
 
+
     self.classfication_model = tf.keras.models.Sequential([
         tf.keras.layers.Dense(64, input_shape=(units,)),
         tf.keras.layers.Dense(1, activation='sigmoid')
@@ -28,10 +29,18 @@ class GRU_RNN(tf.keras.Model):
 
   def call(self, sentence):
 
-    # TODO: Init parameters
+    batch_size = tf.shape(sentence)[0]
+    
+    # GRU: Pre hidden state
+    h = tf.zeros([batch_size, self.units])
 
-    # TODO
-    return None
+    embedded_sentence = self.embedding(sentence)
+
+    for i in range(self.input_length):
+      word = embedded_sentence[:, i, :]
+      h = self.model_rnn(h, word)
+    
+    return self.classfication_model(h)
 
 
   def initialize_parameters(n, d_1, d_2, num_classes):
