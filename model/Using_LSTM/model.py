@@ -28,7 +28,33 @@ class LSTM_RNN(tf.keras.Model):
         ])
         
     def call(self, sentence):
+        """
+        param: sentence need to trained
+            type: Tensor
+            shape: ( batch_size, input_length)
 
-        # TODO: Update later
-        
-        return None
+        return: Output predicted by the model
+            type: Tensor
+            shape: (batch_size,1)
+        """
+        batch_size = tf.shape(sentence)[0]
+
+        # create hidden_state and context_state
+        pre_layer = tf.stack([
+            tf.zeros([batch_size, self.units]),
+            tf.zeros([batch_size, self.units])
+        ])
+
+        # Put sentence into Embedding
+        embedded_sentence = self.embedding(sentence)
+
+        # Use LSTM with every single word in sentence
+        for i in range (self.input_length):
+            word = embedded_sentence[:, i, :]
+            pre_layer = self.Scratch_LSTM(pre_layer, word)
+
+        # Take the last hidden _state
+        h, _ = tf.unstack(pre_layer)
+
+        # Using last hidden_state for for predicting or other processing
+        return self.classfication_model(h)
