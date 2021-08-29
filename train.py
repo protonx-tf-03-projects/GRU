@@ -23,8 +23,6 @@ if __name__ == "__main__":
     parser.add_argument("--input-length", default=1000, type=int)
     parser.add_argument("--learning-rate", default=0.001, type=float)
     parser.add_argument("--optimizers", default='rmsprop', type=str)
-    parser.add_argument("--loss-function",
-                        default='binary_crossentropy', type=str)
 
     parser.add_argument("--batch-size", default=64, type=int)
     parser.add_argument("--epochs", default=1000, type=int)
@@ -69,17 +67,13 @@ if __name__ == "__main__":
                         args.vocab_size, args.input_length)
 
     # Set up loss function
-    if args.loss_function == 'binary_crossentropy':
-      loss_object = tf.keras.losses.BinaryCrossentropy(
-          from_logits=False, label_smoothing=0, axis=-1, reduction="auto", name="binary_crossentropy")
-    else:
-      # Adam or whatever
-      pass
-
+    loss_object = tf.keras.losses.CategoricalCrossentropy(
+        from_logits=False, label_smoothing=0, axis=-1, reduction="auto", name="categorical_crossentropy")
+        
     # Optimizer Definition
     if args.loss_function == 'rmsprop':
       optimizers = tf.keras.optimizers.RMSprop(
-          learning_rate=args.learning_rate, rho=0.9, momentum=0.0, epsilon=1e-07, centered=False, name=args.optimizers)
+          learning_rate=args.learning_rate, name='rmsprop')
     else: 
       pass
 
