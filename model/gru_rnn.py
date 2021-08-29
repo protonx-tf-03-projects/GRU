@@ -1,5 +1,4 @@
 import tensorflow as tf
-import pandas as np
 from tensorflow.python.keras.layers.embeddings import Embedding
 
 # GRU layer
@@ -55,9 +54,9 @@ class GRU_RNN(tf.keras.Model):
 
     # Pass each hidden state through Rnn basic
     self.classification_layer = tf.keras.models.Sequential([
-      tf.keras.layers.Dense(32, input_shape=(units,), activation="swish"),
+      tf.keras.layers.Dense(32, input_shape=(units,)),
       tf.keras.layers.Dropout(0.4),
-      tf.keras.layers.Dense(1, activation='sigmoid')
+      tf.keras.layers.Dense(1, activation='softmax')
     ])
 
   def call(self, sentence):
