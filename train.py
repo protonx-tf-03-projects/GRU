@@ -2,7 +2,7 @@ import os
 from argparse import ArgumentParser
 import tensorflow as tf
 from model.gru_rnn import GRU_RNN
-from data_builder import Dataset
+from data import Dataset
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
