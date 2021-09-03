@@ -42,14 +42,14 @@ class Dataset:
     return (out_sentence)
 
   def data_processing(self, sentences, labels):
-    print("==data_processing==")
+    print("|--data_processing ...")
     sentences = self.sentence_cleaning(sentences)
     labels = self.labels_encode(labels, data_classes=self.data_classes)
     
     return sentences, labels
 
   def build_tokenizer(self, sentences, vocab_size, char_level=False):
-    print("==build_tokenizer==")
+    print("|--build_tokenizer ...")
     tokenizer = tf.keras.preprocessing.text.Tokenizer(
         num_words= vocab_size, oov_token=OOV, char_level=char_level)
     tokenizer.fit_on_texts(sentences)
@@ -57,7 +57,7 @@ class Dataset:
     return tokenizer
 
   def tokenize(self, tokenizer, sentences, max_length):
-    print("==tokenize==")
+    print("|--tokenize ...")
     sentences = tokenizer.texts_to_sequences(sentences)
     sentences = tf.keras.preprocessing.sequence.pad_sequences(sentences, maxlen=max_length,
                                                               padding=PADDING, truncating=TRUNC)
@@ -65,6 +65,7 @@ class Dataset:
     return sentences
 
   def load_dataset(self, max_length, data_name, label_name):
+    print(" ")
     print("Load dataset ... ")
     datastore = pd.read_csv(self.data_path)
     sentences = datastore[data_name]
