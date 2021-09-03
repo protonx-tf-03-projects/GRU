@@ -21,8 +21,6 @@ class Dataset:
     self.sentences_tokenizer = None
 
   def labels_encode(self, labels, data_classes):
-    # data_classes = {'negative': 0, 'positive': 1}
-
     labels.replace(data_classes, inplace=True)
 
     labels_target = labels.values
@@ -44,7 +42,7 @@ class Dataset:
     return (out_sentence)
 
   def data_processing(self, sentences, labels):
-    print("===data_processing===")
+    print("==data_processing==")
     sentences = self.sentence_cleaning(sentences)
     labels = self.labels_encode(labels, data_classes=self.data_classes)
     

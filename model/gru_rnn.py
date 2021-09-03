@@ -63,15 +63,12 @@ class GRU_RNN(tf.keras.Model):
   def call(self, sentence):
 
     batch_size = tf.shape(sentence)[0]
-    print("===batch_size===", batch_size)
-    print("===input_length===", self.input_length)
 
     # Initial hidden_state
     pre_h = tf.zeros([batch_size, self.units])
 
     # embedded_sentence: (batch_size, input_length, embedding_size)
     embedded_sentence = self.embedding(sentence)
-    print("==embedded_sentence_shape==", embedded_sentence.shape)
     
     for i in range(self.input_length):
       word = embedded_sentence[:, i, :]

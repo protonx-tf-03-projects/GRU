@@ -52,7 +52,7 @@ if __name__ == "__main__":
     
     # print arguments
     for i, arg in enumerate(vars(args)):
-        print('{}. {}: {}'.format(i, arg, vars(args)[arg]))
+      print('{}. {}: {}'.format(i, arg, vars(args)[arg]))
     print('===========================')
     
 
