@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--mode-folder", default='{}/output/'.format(home_dir), type=str)
 
-    parser.add_argument("--data-path", default='data/mock/IMDB_Dataset_mini.csv', type=str)
+    parser.add_argument("--data-path", default='data/IMDB_Dataset.csv', type=str)
     parser.add_argument("--data-name", default='review', type=str)
     parser.add_argument("--label-name", default='sentiment', type=str)
     parser.add_argument(
