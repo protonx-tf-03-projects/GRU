@@ -44,27 +44,26 @@ class Dataset:
     return (out_sentence)
 
   def data_processing(self, sentences, labels):
-
+    print("===data_processing===")
     sentences = self.sentence_cleaning(sentences)
     labels = self.labels_encode(labels, data_classes=self.data_classes)
     
-    print("===data_processing===")
     return sentences, labels
 
   def build_tokenizer(self, sentences, vocab_size, char_level=False):
+    print("==build_tokenizer==")
     tokenizer = tf.keras.preprocessing.text.Tokenizer(
         num_words= vocab_size, oov_token=OOV, char_level=char_level)
     tokenizer.fit_on_texts(sentences)
 
-    print("==build_tokenizer==")
     return tokenizer
 
   def tokenize(self, tokenizer, sentences, max_length):
+    print("==tokenize==")
     sentences = tokenizer.texts_to_sequences(sentences)
     sentences = tf.keras.preprocessing.sequence.pad_sequences(sentences, maxlen=max_length,
                                                               padding=PADDING, truncating=TRUNC)
     
-    print("==tokenize==")
     return sentences
 
   def load_dataset(self, max_length, data_name, label_name):
@@ -89,7 +88,7 @@ class Dataset:
     sentences, labels = self.load_dataset(
         max_length, data_name, label_name)
 
-    X_train, X_test, y_train, y_test = train_test_split(
+    X_train, X_val, y_train, y_val = train_test_split(
         sentences, labels, test_size=test_size, stratify=labels, random_state=42)
 
     # Convert to tensor
@@ -98,7 +97,7 @@ class Dataset:
     train_dataset = train_dataset.shuffle(buffer_size).batch(batch_size)
 
     val_dataset = tf.data.Dataset.from_tensor_slices((tf.convert_to_tensor(
-        X_test, dtype=tf.int64), tf.convert_to_tensor(y_test, dtype=tf.int64)))
+        X_val, dtype=tf.int64), tf.convert_to_tensor(y_val, dtype=tf.int64)))
     val_dataset = val_dataset.shuffle(buffer_size).batch(batch_size)
 
     return train_dataset, val_dataset
