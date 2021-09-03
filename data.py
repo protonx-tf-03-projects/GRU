@@ -12,7 +12,6 @@ from constant import *
 
 nltk.download('punkt')
 nltk.download('wordnet')
-nltk.download('stopwords')
 
 class Dataset:
   def __init__(self, data_path, vocab_size, data_classes):

@@ -32,7 +32,7 @@ if __name__ == "__main__":
     
     
     parser.add_argument("--learning-rate", default=0.008, type=float)
-    parser.add_argument("--optimizers", default='rmsprop', type=str)
+    parser.add_argument("--optimizer", default='rmsprop', type=str)
     parser.add_argument("--test-size", default=0.2, type=float)
     parser.add_argument("--batch-size", default=16, type=int)
     parser.add_argument("--buffer-size", default=128, type=int)
@@ -65,7 +65,6 @@ if __name__ == "__main__":
 
     sentences_tokenizer = dataset.sentences_tokenizer
     sentences_tokenizer_size = len(sentences_tokenizer.word_counts) + 1
-    print("sentences_tokenizer_size: ", sentences_tokenizer_size)
     
     # Initializing variables
     input_length = args.max_length
@@ -88,15 +87,16 @@ if __name__ == "__main__":
         name="categorical_crossentropy")
         
     # Optimizer Definition
-    if args.optimizers == 'rmsprop':
-      optimizers = tf.keras.optimizers.RMSprop(
+    if args.optimizer == 'rmsprop':
+      optimizer = tf.keras.optimizers.RMSprop(
           learning_rate=args.learning_rate, name='rmsprop')
     else: 
-      pass
+      optimizer = tf.keras.optimizers.Adam(
+          learning_rate=args.learning_rate, name='adam')
 
     # Compile optimizer and loss function into model
     metrics = ['accuracy']
-    model.compile(optimizer=optimizers,
+    model.compile(optimizer=optimizer,
                   loss=losses, metrics=metrics)
 
     # Callbacks
