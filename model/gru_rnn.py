@@ -9,11 +9,11 @@ class GRU(tf.keras.layers.Layer):
     input_shape
   '''
 
-  def __init__(self, units, input_shape):
+  def __init__(self, units, _input_shape):
     super(GRU, self).__init__()
     self.units = units
-    self.input_shape = input_shape
-    self.W = self.add_weight("W", shape=(3, self.units, self.input_shape))
+    self._input_shape = _input_shape
+    self.W = self.add_weight("W", shape=(3, self.units, self._input_shape))
     self.U = self.add_weight("U", shape=(3, self.units, self.units))
 
   def call(self, pre_h, x):
@@ -37,10 +37,11 @@ class GRU(tf.keras.layers.Layer):
 
 # Define GRU model
 class GRU_RNN(tf.keras.Model):
-  def __init__(self, units, embedding_size, vocab_size, input_length):
+  def __init__(self, units, embedding_size, vocab_size, input_length, num_class):
     super(GRU_RNN, self).__init__()
     self.input_length = input_length
     self.units = units
+    self.num_class = num_class
 
     # Embedding
     self.embedding = tf.keras.layers.Embedding(
@@ -54,21 +55,24 @@ class GRU_RNN(tf.keras.Model):
 
     # Pass each hidden state through Rnn basic
     self.classification_layer = tf.keras.models.Sequential([
-      tf.keras.layers.Dense(32, input_shape=(units,)),
-      tf.keras.layers.Dropout(0.4),
-      tf.keras.layers.Dense(1, activation='softmax')
+        tf.keras.layers.Dense(32, input_shape=(units,), activation="swish"),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(num_class, activation='softmax')
     ])
 
   def call(self, sentence):
 
     batch_size = tf.shape(sentence)[0]
+    print("===batch_size===", batch_size)
+    print("===input_length===", self.input_length)
 
     # Initial hidden_state
     pre_h = tf.zeros([batch_size, self.units])
 
     # embedded_sentence: (batch_size, input_length, embedding_size)
     embedded_sentence = self.embedding(sentence)
-
+    print("==embedded_sentence_shape==", embedded_sentence.shape)
+    
     for i in range(self.input_length):
       word = embedded_sentence[:, i, :]
       pre_h = self.model(pre_h, word)
@@ -77,5 +81,6 @@ class GRU_RNN(tf.keras.Model):
 
     # Predition by lastest hidden_state
     output = self.classification_layer(h)
-    
+    print("===output_layer===", output)
+
     return output
