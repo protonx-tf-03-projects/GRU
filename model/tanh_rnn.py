@@ -1,14 +1,30 @@
 import tensorflow as tf
 import pandas as pd
 import numpy as np
-from layers.LSTM import Tanh
+
+class Tanh(tf.keras.layers.Layer):
+    """
+        Using traditional RNN but the bounded function is a tanh function
+    """
+    def __init__(self, units, inp_shape):
+        super(Tanh,self).__init__()
+        self.units = units
+        self.inp_shape = inp_shape
+        self.W = self.add_weight("W", shape=(1, self.units, self.inp_shape))
+        self.U = self.add_weight("U", shape=(1, self.units, self.units))
+
+    def call(self, pre_layer, x):
+        # pre_h, pre_c = tf.unstack(pre_layer)
+        h = tf.nn.tanh(tf.matmul(x, tf.transpose(self.W[0])) + tf.matmul(pre_layer, tf.transpose(self.U[0])))
+        return h
+
 
 class Tanh_RNN(tf.keras.Model):
     """
         Using Tanh and some of Dense class for training model
     """
 
-    def __init__(self, units, embedding_size, vocab_size, input_length):
+    def __init__(self, units, embedding_size, vocab_size, input_length, num_class):
         super(Tanh_RNN,self).__init__()
         self.input_length = input_length
         self.units = units
@@ -22,9 +38,9 @@ class Tanh_RNN(tf.keras.Model):
         self.model = Tanh(units, embedding_size)
 
         self.classfication_model = tf.keras.models.Sequential([
-            tf.keras.layers.Dense(128, input_shape=(units,), activation='relu'),
-            tf.keras.layers.Dense(64, activation='relu'),
-            tf.keras.layers.Dense(1, activation='sigmoid')
+            tf.keras.layers.Dense(32, input_shape=(units,), activation="swish"),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(num_class, activation='softmax')
         ])
 
     def call(self, sentence):
