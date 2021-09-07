@@ -46,25 +46,42 @@ conda activate gru
 
 ## III. Training Process
 
-
-**FIXME**
-
 Training script:
 
 
 ```python
 
-python train.py --epochs ${epochs} --input-lang en --target-lang vi --input-path ${path_to_en_text_file} --target-path ${path_to_vi_text_file}
+!python train.py --epochs ${epochs} 
+                --model-folder ${model_folder}
+                --checkpoint-folder ${checkpoint_folder}
+                --data-path ${data_path}
+                --data-name ${data_name}
+                --label-name ${label_name}
+                --data-classes ${data_classes}
+                --num-classes ${num_classes}
+                --model ${model} 
+                --units ${units}
+                --embedding-size ${embedding_size}
+                --vocab-size ${vocab_size}
+                --max-length ${max_length}
+                --learning-rate ${learning_rate}
+                --optimizer ${optimizer}
+                --test-size ${test_size}
+                --batch-size ${batch_size}
+                --buffer-size ${buffer_size}
 
 ```
-**FIXME**
 
-Example:
+Example for IMDB dataset:
 
 ```python
+!python train.py --epochs 20 --model gru --optimizer rmsprop --units 128 --embedding-size 128 --vocab-size=10000 --max-length 256 --learning-rate 0.0008  --test-size 0.2 --batch-size 32 --buffer-size 128
+```
 
-!python train.py --train-folder ${train_folder} --valid-folder ${valid_folder} --num-classes 2 --patch-size 5 --image-size 150 --lr 0.0001 --epochs 200 --num-heads 12 
+Example others dataset:
 
+```python
+!python train.py --epochs 20 --model gru --learning-rate 0.0008 --optimizer rmsprop --model-folder /tmp/model/ --checkpoint-folder /tmp/checkpoints/ --data-path data/IMDB_Dataset.csv --data-name review  --label-name sentiment --data-classes {'negative': 0, 'positive': 1} --num-classes 2 --units 128 --embedding-size 128 --vocab-size=10000 --max-length 256  --test-size 0.2 --batch-size 32 --buffer-size 128
 ```
 
 
