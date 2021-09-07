@@ -1,13 +1,13 @@
 ## Create Enviroment
 
 ```python
-conda create -n base-library python==3.7.0
+conda create -n gru python==3.7.0
 ```
 
 ## Active Enviroment
 
 ```python
-conda activate base-library
+conda activate gru
 ```
 
 ## Install Dependencies

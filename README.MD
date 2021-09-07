@@ -6,11 +6,18 @@ Library Logo <--- **FIXME**
     <img src='https://storage.googleapis.com/protonx-cloud-storage/transformer/protonx-transf.png' width=200 class="center">
 </p>
 
-Description about your project. Why do you choose to build this?  <--- **FIXME**
+Compare and evaluate recurrent neural networks (RNN) with different types of recurrent units: 
+- Gated recurrent unit (GRU)
+- Long short-term memory (LSTM)
+- Tanh
 
 Slide about your project (if it's available) <--- **FIXME**
 
 Architecture Image  <--- **FIXME**
+
+Advisors:
+- Github: [bangoc123](https://github.com/bangoc123)
+- Email: protonxai@gmail.com
 
 Authors:
 | # | Name | Github | Email |
@@ -19,27 +26,18 @@ Authors:
 |2|Dung Nguyen|[anhdungpro97](https://github.com/anhdungpro97)|anhdung1951997@gmail.com|
 |3|Duong Tran|[ttduongtran](https://github.com/ttduongtran)|ttduongtran@gmail.com|
 
-Advisors:
-- Github: [bangoc123](https://github.com/bangoc123)
-- Email: protonxai@gmail.com
-
 ## I.  Set up environment
-- Step 1: <--- **FIXME**
+
+- Step 1: Create the environment (Make sure you have installed [Miniconda](https://docs.conda.io/en/latest/miniconda.html))
 
 ```python
 conda env create -f environment.yml
 ```
 
-- Step 2: <--- **FIXME**
+- Step 2: Active environment
 ```
-
+conda activate gru
 ```
-
-- Step 3: <--- **FIXME**
-
-```
-
-``` 
 
 ## II.  Set up your dataset
 
@@ -48,33 +46,63 @@ conda env create -f environment.yml
 
 ## III. Training Process
 
-
-**FIXME**
-
 Training script:
 
 
 ```python
 
-python train.py --epochs ${epochs} --input-lang en --target-lang vi --input-path ${path_to_en_text_file} --target-path ${path_to_vi_text_file}
+!python train.py --epochs ${epochs} 
+                --model-folder ${model_folder}
+                --checkpoint-folder ${checkpoint_folder}
+                --data-path ${data_path}
+                --data-name ${data_name}
+                --label-name ${label_name}
+                --data-classes ${data_classes}
+                --num-classes ${num_classes}
+                --model ${model} 
+                --units ${units}
+                --embedding-size ${embedding_size}
+                --vocab-size ${vocab_size}
+                --max-length ${max_length}
+                --learning-rate ${learning_rate}
+                --optimizer ${optimizer}
+                --test-size ${test_size}
+                --batch-size ${batch_size}
+                --buffer-size ${buffer_size}
 
 ```
-**FIXME**
 
-Example:
+Example for IMDB dataset:
 
 ```python
+!python train.py --epochs 20 --model gru --optimizer rmsprop --units 128 --embedding-size 128 --vocab-size=10000 --max-length 256 --learning-rate 0.0008  --test-size 0.2 --batch-size 32 --buffer-size 128
+```
 
-!python train.py --train-folder ${train_folder} --valid-folder ${valid_folder} --num-classes 2 --patch-size 5 --image-size 150 --lr 0.0001 --epochs 200 --num-heads 12 
+Example others dataset:
 
-``` 
-**FIXME**
+```python
+!python train.py --epochs 20 --model gru --learning-rate 0.0008 --optimizer rmsprop --model-folder /tmp/model/ --checkpoint-folder /tmp/checkpoints/ --data-path data/IMDB_Dataset.csv --data-name review  --label-name sentiment --data-classes {'negative': 0, 'positive': 1} --num-classes 2 --units 128 --embedding-size 128 --vocab-size=10000 --max-length 256  --test-size 0.2 --batch-size 32 --buffer-size 128
+```
 
-There are some important arguments for the script you should consider when running it:
 
-- `train-folder`: The folder of training data
-- `valid-folder`: The folder of validation data
-- ...
+There are some `important` arguments for the script you should consider when running it:
+- `model-folder`: Directory model. (E.g. `tmp/model`)
+- `checkpoint-folder`: Directory checkpoints. (E.g. `tmp/checkpoints`)
+- `data-path`: The path of dataset (Must be csv format. E.g. `data/IMDB_Dataset.csv`)
+- `data-name`: The folder of validation data
+- `data-name`: Name of data column that having sentences will be train. (e.g. `review`)
+- `label-name`:  Name of label column that having labels will be train. (e.g. `sentiment` )
+- `data-classes`: Set of labels that you need to convert to categorical. (E.g. `{'negative': 0, 'positive': 1}`)
+- `num-class`: Number of labels in your dataset. (e.g. `2` labels)
+- `model`: Choose one model that you want to test including: `gru`, `lstm`, `tanh`. Default is `gru`
+- `units`: Hidden dimension. Default is `128`
+- `embedding-size`: Embedding dimension. Default is `128`
+- `vocab-size`: Vocabulary size. Default is `10000`
+- `max-length`: The maximum length of a sentence you want to keep when preprocessing. Default value `256`
+- `learning-rate`: Learning rate. Default is `0.005`
+- `optimizer`: Choose one optimizer that you want to apply, including: `rmsprop` and `adam`. Default is `rmsprop`
+- `test-size`: Split to train (1-x) and test (x) dataset with ratio. Default is `0.2`
+- `batch-size`: The batch size of the dataset. Default value `64`
 
 ## IV. Predict Process
 
@@ -84,32 +112,25 @@ python predict.py --test-data ${link_to_test_data}
 
 ## V. Result and Comparision
 
-**FIXME**
-
-Your implementation
+### 1. GRU
 ```
 Epoch 7/10
-782/782 [==============================] - 261s 334ms/step - loss: 0.8315 - acc: 0.8565 - val_loss: 0.8357 - val_acc: 0.7978
+625/625 [==============================] - 175s 280ms/step - loss: 0.3127 - accuracy: 0.8690 - mse: 0.0954 - val_loss: 0.2497 - val_accuracy: 0.8968 - val_mse: 0.0748
 Epoch 8/10
-782/782 [==============================] - 261s 334ms/step - loss: 0.3182 - acc: 0.8930 - val_loss: 0.6161 - val_acc: 0.8047
+625/625 [==============================] - 175s 281ms/step - loss: 0.2106 - accuracy: 0.9200 - mse: 0.0608 - val_loss: 0.2646 - val_accuracy: 0.8956 - val_mse: 0.0772
 Epoch 9/10
-782/782 [==============================] - 261s 333ms/step - loss: 1.1965 - acc: 0.8946 - val_loss: 3.9842 - val_acc: 0.7855
+625/625 [==============================] - 175s 280ms/step - loss: 0.1551 - accuracy: 0.9430 - mse: 0.0435 - val_loss: 0.3356 - val_accuracy: 0.8761 - val_mse: 0.0949
 Epoch 10/10
-782/782 [==============================] - 261s 333ms/step - loss: 0.4717 - acc: 0.8878 - val_loss: 0.4894 - val_acc: 0.8262
-
+625/625 [==============================] - 175s 280ms/step - loss: 0.1029 - accuracy: 0.9641 - mse: 0.0279 - val_loss: 0.3228 - val_accuracy: 0.8862 - val_mse: 0.0880
 ```
 
-**FIXME**
-
-Other architecture
-
+### 2. LSTM
 ```
-Epoch 6/10
-391/391 [==============================] - 115s 292ms/step - loss: 0.1999 - acc: 0.9277 - val_loss: 0.4719 - val_acc: 0.8130
-Epoch 7/10
-391/391 [==============================] - 114s 291ms/step - loss: 0.1526 - acc: 0.9494 - val_loss: 0.5224 - val_acc: 0.8318
-Epoch 8/10
-391/391 [==============================] - 115s 293ms/step - loss: 0.1441 - acc: 0.9513 - val_loss: 0.5811 - val_acc: 0.7875
+Epoch 10/10 ... 
+```
+### 2. TANH
+```
+Epoch 10/10 ... 
 ```
 
 Your comments about these results <--- **FIXME**
