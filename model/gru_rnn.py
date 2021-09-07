@@ -19,8 +19,8 @@ class GRU(tf.keras.layers.Layer):
     self.inp_shape = inp_shape
     self.W = self.add_weight("W", shape=(3, self.units, self.inp_shape))
     self.U = self.add_weight("U", shape=(3, self.inp_shape, self.units))
-    self.b = self.add_weight("b", shape=(self.units, 1))
-
+    self.b = self.add_weight("b", shape=(self.units, 1), initializer="zeros", trainable=True)
+    
   def call(self, pre_h, x):
 
     # Update gate: Decide how much the unit updates its activation, or content
