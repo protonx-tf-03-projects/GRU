@@ -1,7 +1,6 @@
 import tensorflow as tf
 import pandas as pd
 import numpy as np
-from layers.LSTM import Scratch_LSTM
 
 
 class Scratch_LSTM(tf.keras.layers.Layer):
