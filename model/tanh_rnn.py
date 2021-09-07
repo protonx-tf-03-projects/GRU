@@ -37,7 +37,7 @@ class Tanh_RNN(tf.keras.Model):
 
         self.model = Tanh(units, embedding_size)
 
-        self.classfication_model = tf.keras.models.Sequential([
+        self.classification_layer = tf.keras.models.Sequential([
             tf.keras.layers.Dense(32, input_shape=(units,), activation="elu"),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(num_class, activation='softmax')
@@ -67,4 +67,4 @@ class Tanh_RNN(tf.keras.Model):
             pre_layer = self.model(pre_layer, word)
 
         # Using last hidden_state for for predicting or other processing
-        return self.classfication_model(pre_layer)
+        return self.classification_layer(pre_layer)

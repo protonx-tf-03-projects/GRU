@@ -1,14 +1,11 @@
 import tensorflow as tf
-import pandas as pd
-import numpy as np
 
-
-class Scratch_LSTM(tf.keras.layers.Layer):
+class LSTM(tf.keras.layers.Layer):
     """
         Scratch LSTM with the equations by modifying  the original LSTM tensorflow model
     """
     def __init__(self, units, inp_shape):
-        super(Scratch_LSTM, self).__init__()
+        super(LSTM, self).__init__()
         self.units = units
         self.inp_shape = inp_shape
         self.W = self.add_weight("W", shape=(4, self.units, self.inp_shape))
@@ -54,9 +51,9 @@ class LSTM_RNN(tf.keras.Model):
             input_length=input_length
         )
 
-        self.Scratch_LSTM = Scratch_LSTM(units, embedding_size)
+        self.LSTM = LSTM(units, embedding_size)
 
-        self.classfication_model = tf.keras.models.Sequential([
+        self.classfication_layer = tf.keras.models.Sequential([
             tf.keras.layers.Dense(32, input_shape=(units,), activation="elu"),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(num_class, activation='softmax')
@@ -86,10 +83,10 @@ class LSTM_RNN(tf.keras.Model):
         # Use LSTM with every single word in sentence
         for i in range (self.input_length):
             word = embedded_sentence[:, i, :]
-            pre_layer = self.Scratch_LSTM(pre_layer, word)
+            pre_layer = self.LSTM(pre_layer, word)
 
         # Take the last hidden _state
         h, _ = tf.unstack(pre_layer)
 
         # Using last hidden_state for for predicting or other processing
-        return self.classfication_model(h)
+        return self.classfication_layer(h)
