@@ -38,7 +38,7 @@ class Tanh_RNN(tf.keras.Model):
         self.model = Tanh(units, embedding_size)
 
         self.classfication_model = tf.keras.models.Sequential([
-            tf.keras.layers.Dense(32, input_shape=(units,), activation="swish"),
+            tf.keras.layers.Dense(32, input_shape=(units,), activation="elu"),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(num_class, activation='softmax')
         ])
