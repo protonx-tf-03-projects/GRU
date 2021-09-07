@@ -71,4 +71,4 @@ dependencies:
     - werkzeug==2.0.1
     - wrapt==1.12.1
     - zipp==3.5.0
-prefix: /Users/duongtran/miniconda3/envs/base-library
+prefix: /Users/duongtran/miniconda3/envs/gru
