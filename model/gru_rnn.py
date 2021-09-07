@@ -42,15 +42,9 @@ class GRU(tf.keras.layers.Layer):
 
 # Define GRU model
 class GRU_RNN(tf.keras.Model):
-  '''
-    Arguments
-      units (int):
-      embedding_size (int):
-      vocab_size (int):
-      input_length (int):
-      num_class (int):
-    Output
-  '''
+  """
+    Using GRU cell and Dense layers for training model
+  """
   def __init__(self, units, embedding_size, vocab_size, input_length, num_class):
     super(GRU_RNN, self).__init__()
     self.input_length = input_length
@@ -69,15 +63,21 @@ class GRU_RNN(tf.keras.Model):
 
     # Pass each hidden state through Rnn basic
     self.classification_layer = tf.keras.models.Sequential([
-        tf.keras.layers.Dense(32, input_shape=(units,), activation="elu"),
+        tf.keras.layers.Dense(32, input_shape=(units,), activation="relu"),
         tf.keras.layers.Dropout(0.2),
         tf.keras.layers.Dense(num_class, activation='softmax')
     ])
 
   def call(self, sentence):
-    '''
-      sentence
-    '''
+    """
+      parameters: sentence need to trained
+        type: Tensor
+        shape: ( batch_size, input_length)
+
+      return: Predition by lastest of model
+        type: Tensor
+        shape: (batch_size,1)
+    """
     batch_size = tf.shape(sentence)[0]
 
     # Initial hidden_state
@@ -94,6 +94,6 @@ class GRU_RNN(tf.keras.Model):
 
     # Predition by lastest hidden_state
     output = self.classification_layer(h)
-    print("===output_layer===", output)
+    # print("===output_layer===", output)
 
     return output

@@ -2,7 +2,7 @@ import tensorflow as tf
 
 class LSTM(tf.keras.layers.Layer):
     """
-        Scratch LSTM with the equations by modifying  the original LSTM tensorflow model
+        Scratch LSTM with the equations by modifying the original LSTM tensorflow model
     """
     def __init__(self, units, inp_shape):
         super(LSTM, self).__init__()
@@ -37,7 +37,7 @@ class LSTM(tf.keras.layers.Layer):
 
 class LSTM_RNN(tf.keras.Model):
     """
-        Using Scratch_LTSTM and some of Dense class for training model
+        Using LSTM cell and Dense layers for training model
     """
 
     def __init__(self, units, embedding_size, vocab_size, input_length, num_class):
@@ -53,8 +53,8 @@ class LSTM_RNN(tf.keras.Model):
 
         self.LSTM = LSTM(units, embedding_size)
 
-        self.classfication_layer = tf.keras.models.Sequential([
-            tf.keras.layers.Dense(32, input_shape=(units,), activation="elu"),
+        self.classification_layer = tf.keras.models.Sequential([
+            tf.keras.layers.Dense(32, input_shape=(units,), activation="relu"),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(num_class, activation='softmax')
         ])
@@ -89,4 +89,4 @@ class LSTM_RNN(tf.keras.Model):
         h, _ = tf.unstack(pre_layer)
 
         # Using last hidden_state for for predicting or other processing
-        return self.classfication_layer(h)
+        return self.classification_layer(h)

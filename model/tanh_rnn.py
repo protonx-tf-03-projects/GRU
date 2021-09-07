@@ -1,6 +1,4 @@
 import tensorflow as tf
-import pandas as pd
-import numpy as np
 
 class Tanh(tf.keras.layers.Layer):
     """
@@ -21,7 +19,7 @@ class Tanh(tf.keras.layers.Layer):
 
 class Tanh_RNN(tf.keras.Model):
     """
-        Using Tanh and some of Dense class for training model
+        Using Tanh and Dense layers for training model
     """
 
     def __init__(self, units, embedding_size, vocab_size, input_length, num_class):
@@ -38,7 +36,7 @@ class Tanh_RNN(tf.keras.Model):
         self.model = Tanh(units, embedding_size)
 
         self.classification_layer = tf.keras.models.Sequential([
-            tf.keras.layers.Dense(32, input_shape=(units,), activation="elu"),
+            tf.keras.layers.Dense(32, input_shape=(units,), activation="relu"),
             tf.keras.layers.Dropout(0.2),
             tf.keras.layers.Dense(num_class, activation='softmax')
         ])

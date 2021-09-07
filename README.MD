@@ -58,7 +58,7 @@ Training script:
                 --data-name ${data_name}
                 --label-name ${label_name}
                 --data-classes ${data_classes}
-                --num-classes ${num_classes}
+                --num-class ${num_classes}
                 --model ${model} 
                 --units ${units}
                 --embedding-size ${embedding_size}
@@ -81,7 +81,7 @@ Example for IMDB dataset:
 Example others dataset:
 
 ```python
-!python train.py --epochs 20 --model gru --learning-rate 0.0008 --optimizer rmsprop --model-folder /tmp/model/ --checkpoint-folder /tmp/checkpoints/ --data-path data/IMDB_Dataset.csv --data-name review  --label-name sentiment --data-classes {'negative': 0, 'positive': 1} --num-classes 2 --units 128 --embedding-size 128 --vocab-size=10000 --max-length 256  --test-size 0.2 --batch-size 32 --buffer-size 128
+!python train.py --epochs 20 --model gru --learning-rate 0.0008 --optimizer rmsprop --model-folder /tmp/model/ --checkpoint-folder /tmp/checkpoints/ --data-path data/IMDB_Dataset.csv --data-name review  --label-name sentiment --data-classes {'negative': 0, 'positive': 1} --num-class 2 --units 128 --embedding-size 128 --vocab-size=10000 --max-length 256  --test-size 0.2 --batch-size 32 --buffer-size 128
 ```
 
 

@@ -2,6 +2,8 @@ import os
 from argparse import ArgumentParser
 import tensorflow as tf
 from model.gru_rnn import GRU_RNN
+from model.lstm_rnn import LSTM_RNN
+from model.tanh_rnn import Tanh_RNN
 from data import Dataset
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -19,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--checkpoint-folder", default='{}/tmp/checkpoints/'.format(home_dir), type=str)
 
-    parser.add_argument("--data-path", default='data/IMDB_Dataset.csv', type=str)
+    parser.add_argument("--data-path", default='data/IMDB_Dataset_test.csv', type=str)
     parser.add_argument("--data-name", default='review', type=str)
     parser.add_argument("--label-name", default='sentiment', type=str)
     parser.add_argument(
@@ -69,13 +71,11 @@ if __name__ == "__main__":
 
     # Initializing model
     if args.model == 'lstm':
-      # LSTM model
-      # model = LSTM()
-      pass
+      model = LSTM_RNN(args.units, args.embedding_size,
+                       sentences_tokenizer_size, input_length, num_class=args.num_class)
     elif args.model == 'tanh':
-      # Tanh model
-      # model = Tanh()
-      pass 
+      model = Tanh_RNN(args.units, args.embedding_size,
+                       sentences_tokenizer_size, input_length, num_class=args.num_class)
     else:
       model = GRU_RNN(args.units, args.embedding_size,
                       sentences_tokenizer_size, input_length, num_class=args.num_class)
@@ -123,5 +123,6 @@ if __name__ == "__main__":
     model.save(f"{args.model_folder}/{args.model}.h5py")
 
     # Do Prediction
-
+    print('==============Evaluate=============')
+    model.evaluate(val_ds, batch_size=128)
 
