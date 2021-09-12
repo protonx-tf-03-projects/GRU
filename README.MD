@@ -106,8 +106,29 @@ There are some `important` arguments for the script you should consider when run
 
 ## IV. Predict Process
 
-```bash
-python predict.py --test-data ${link_to_test_data}
+Predicting script:
+
+```python
+
+!python predict.py --review-sentence ${The review sentence} 
+                --model-path ${model directory}
+                --data-path ${data_path}
+                --data-name ${data_name}
+                --data-classes ${data_classes}       
+                --vocab-size ${vocab_size}
+                --max-length ${max_length}
+
+```
+Example: predicting with GRU model:
+
+```python
+!python predict.py --model-path tmp/model/gru.h5py --review-sentence "The plot of film is really good"
+```
+
+Example: other predicting with LSTM model:
+
+```python
+!python predict.py --model-path tmp/model/lstm.h5py --review-sentence "The plot of film is really good"
 ```
 
 ## V. Result and Comparision
@@ -126,15 +147,51 @@ Epoch 10/10
 
 ### 2. LSTM
 ```
-Epoch 10/10 ... 
+...
+Epoch 6/10
+1250/1250 [==============================] - 352s 281ms/step - loss: 0.4320 - accuracy: 0.8328 - mse: 0.1327 - val_loss: 0.4471 - val_accuracy: 0.8203 - val_mse: 0.1405
+Epoch 7/10
+1250/1250 [==============================] - 350s 280ms/step - loss: 0.4057 - accuracy: 0.8458 - mse: 0.1232 - val_loss: 0.4552 - val_accuracy: 0.8326 - val_mse: 0.1386
+Epoch 8/10
+1250/1250 [==============================] - 350s 280ms/step - loss: 0.3847 - accuracy: 0.8532 - mse: 0.1166 - val_loss: 0.4161 - val_accuracy: 0.8353 - val_mse: 0.1303
+Epoch 9/10
+1250/1250 [==============================] - 349s 280ms/step - loss: 0.3255 - accuracy: 0.8714 - mse: 0.0977 - val_loss: 0.3246 - val_accuracy: 0.8581 - val_mse: 0.0993
+Epoch 10/10
+1250/1250 [==============================] - 350s 280ms/step - loss: 0.2795 - accuracy: 0.8878 - mse: 0.0830 - val_loss: 0.3019 - val_accuracy: 0.8795 - val_mse: 0.0905
+
+Epoch 00010: saving model to tmp/checkpoints/cp-0010.ckpt/
+==============Evaluate=============
+313/313 [==============================] - 26s 84ms/step - loss: 0.3019 - accuracy: 0.8795 - mse: 0.0905
+
 ```
-### 2. TANH
+### 3. TANH
 ```
-Epoch 10/10 ... 
+....
+Epoch 00005: saving model to tmp/checkpoints/cp-0005.ckpt/
+Epoch 6/10
+1250/1250 [==============================] - 103s 83ms/step - loss: 0.6915 - accuracy: 0.5132 - mse: 0.2491 - val_loss: 0.6915 - val_accuracy: 0.5115 - val_mse: 0.2492
+Epoch 7/10
+1250/1250 [==============================] - 103s 82ms/step - loss: 0.6851 - accuracy: 0.5284 - mse: 0.2460 - val_loss: 0.6787 - val_accuracy: 0.5420 - val_mse: 0.2428
+Epoch 8/10
+1250/1250 [==============================] - 103s 82ms/step - loss: 0.6713 - accuracy: 0.5501 - mse: 0.2395 - val_loss: 0.6785 - val_accuracy: 0.5443 - val_mse: 0.2427
+Epoch 9/10
+1250/1250 [==============================] - 103s 82ms/step - loss: 0.6715 - accuracy: 0.5508 - mse: 0.2396 - val_loss: 0.6908 - val_accuracy: 0.5250 - val_mse: 0.2485
+Epoch 10/10
+1250/1250 [==============================] - 103s 82ms/step - loss: 0.6731 - accuracy: 0.5497 - mse: 0.2403 - val_loss: 0.6936 - val_accuracy: 0.5233 - val_mse: 0.2494
+
+Epoch 00010: saving model to tmp/checkpoints/cp-0010.ckpt/
+==============Evaluate=============
+313/313 [==============================] - 7s 22ms/step - loss: 0.6936 - accuracy: 0.5233 - mse: 0.2494
+
 ```
 
-Your comments about these results <--- **FIXME**
+### 4. Comments about these results
 
+- Base on the results of Training with 3 kinds of model, we can figure out that there are differences about the Accuaracy between them
+	+ Both GRU and LSTM have high efficiency with the highest val_accuracy is 0.8968 and 0.8795 , respectively.    
+	+ Tanh is the opposite, the val_accuracy is really low with just around 0.54 
+- The results clearly demonstrated the superiority of the gated units; both the LSTM unit and GRU, over the traditional tanh unit.
+- However, we could not make concrete conclusion on which of the two gating units was better.
 
 ## VI. Running Test
 
