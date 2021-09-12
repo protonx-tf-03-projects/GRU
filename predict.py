@@ -47,7 +47,9 @@ if __name__ == "__main__":
     tokenizer = dataset.build_tokenizer(sentences, args.vocab_size, char_level=False)
 
     # Tokenize the reviews_sentence
-    input_1 = dataset.tokenize(tokenizer, args.review_sentence, args.max_length)
+    test_sentence = []
+    test_sentence.append(args.review_sentence)
+    input_1 = dataset.tokenize(tokenizer, test_sentence, args.max_length)
     input_1 = input_1.astype('int64')
     
     # Load model
@@ -55,6 +57,14 @@ if __name__ == "__main__":
 
     #Predicting
     print('---------------------Prediction Result: -------------------')
-    results = model.predict(input_1)    
-    print('Output: {}'.format(results))
+    results = model.predict(input_1)  
+    
+    len_result = len(args.data_classes)
+
+    Dic_class = {0 : "Negative", 1: "Positive"}  
+    for i in range(len_result):
+        if results[0][i] > 0.5:
+            print("The Review Sentence is: ", Dic_class[i])
+            break
+
 
