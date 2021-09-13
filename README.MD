@@ -135,14 +135,18 @@ Example: other predicting with LSTM model:
 
 ### 1. GRU
 ```
+...
+Epoch 6/10
+1250/1250 [==============================] - 325s 260ms/step - loss: 0.1785 - accuracy: 0.9317 - mse: 0.0511 - val_loss: 0.3023 - val_accuracy: 0.8936 - val_mse: 0.0836
 Epoch 7/10
-625/625 [==============================] - 175s 280ms/step - loss: 0.3127 - accuracy: 0.8690 - mse: 0.0954 - val_loss: 0.2497 - val_accuracy: 0.8968 - val_mse: 0.0748
+1250/1250 [==============================] - 326s 261ms/step - loss: 0.1621 - accuracy: 0.9388 - mse: 0.0459 - val_loss: 0.3329 - val_accuracy: 0.8818 - val_mse: 0.0924
 Epoch 8/10
-625/625 [==============================] - 175s 281ms/step - loss: 0.2106 - accuracy: 0.9200 - mse: 0.0608 - val_loss: 0.2646 - val_accuracy: 0.8956 - val_mse: 0.0772
+1250/1250 [==============================] - 326s 261ms/step - loss: 0.1460 - accuracy: 0.9434 - mse: 0.0414 - val_loss: 0.3247 - val_accuracy: 0.8863 - val_mse: 0.0864
 Epoch 9/10
-625/625 [==============================] - 175s 280ms/step - loss: 0.1551 - accuracy: 0.9430 - mse: 0.0435 - val_loss: 0.3356 - val_accuracy: 0.8761 - val_mse: 0.0949
+1250/1250 [==============================] - 323s 258ms/step - loss: 0.1310 - accuracy: 0.9507 - mse: 0.0368 - val_loss: 0.3278 - val_accuracy: 0.8841 - val_mse: 0.0878
 Epoch 10/10
-625/625 [==============================] - 175s 280ms/step - loss: 0.1029 - accuracy: 0.9641 - mse: 0.0279 - val_loss: 0.3228 - val_accuracy: 0.8862 - val_mse: 0.0880
+1250/1250 [==============================] - 322s 258ms/step - loss: 0.1149 - accuracy: 0.9572 - mse: 0.0318 - val_loss: 0.3633 - val_accuracy: 0.8818 - val_mse: 0.0919
+
 ```
 
 ### 2. LSTM
@@ -159,15 +163,10 @@ Epoch 9/10
 Epoch 10/10
 1250/1250 [==============================] - 350s 280ms/step - loss: 0.2795 - accuracy: 0.8878 - mse: 0.0830 - val_loss: 0.3019 - val_accuracy: 0.8795 - val_mse: 0.0905
 
-Epoch 00010: saving model to tmp/checkpoints/cp-0010.ckpt/
-==============Evaluate=============
-313/313 [==============================] - 26s 84ms/step - loss: 0.3019 - accuracy: 0.8795 - mse: 0.0905
-
 ```
 ### 3. TANH
 ```
-....
-Epoch 00005: saving model to tmp/checkpoints/cp-0005.ckpt/
+...
 Epoch 6/10
 1250/1250 [==============================] - 103s 83ms/step - loss: 0.6915 - accuracy: 0.5132 - mse: 0.2491 - val_loss: 0.6915 - val_accuracy: 0.5115 - val_mse: 0.2492
 Epoch 7/10
@@ -179,16 +178,12 @@ Epoch 9/10
 Epoch 10/10
 1250/1250 [==============================] - 103s 82ms/step - loss: 0.6731 - accuracy: 0.5497 - mse: 0.2403 - val_loss: 0.6936 - val_accuracy: 0.5233 - val_mse: 0.2494
 
-Epoch 00010: saving model to tmp/checkpoints/cp-0010.ckpt/
-==============Evaluate=============
-313/313 [==============================] - 7s 22ms/step - loss: 0.6936 - accuracy: 0.5233 - mse: 0.2494
-
 ```
 
 ### 4. Comments about these results
 
 - Base on the results of Training with 3 kinds of model, we can figure out that there are differences about the Accuaracy between them
-	+ Both GRU and LSTM have high efficiency with the highest val_accuracy is 0.8968 and 0.8795 , respectively.    
+	+ Both GRU and LSTM have high efficiency with the highest val_accuracy is 0.8936 and 0.8795 , respectively.    
 	+ Tanh is the opposite, the val_accuracy is really low with just around 0.54 
 - The results clearly demonstrated the superiority of the gated units; both the LSTM unit and GRU, over the traditional tanh unit.
 - However, we could not make concrete conclusion on which of the two gating units was better.
