@@ -59,9 +59,13 @@ if __name__ == "__main__":
     print('---------------------Prediction Result: -------------------')
     results = model.predict(input_1)  
     
+    #Create new dictionary for data_classes
     len_result = len(args.data_classes)
-
-    Dic_class = {0 : "Negative", 1: "Positive"}  
+    Dic_class = {}
+    for i in args.data_classes.keys():
+        Dic_class[args.data_classes[i]] = i
+    
+    # Use new Dictionary for choosing the feature( the output only have one which value > 0.5) 
     for i in range(len_result):
         if results[0][i] > 0.5:
             print("The Review Sentence is: ", Dic_class[i])
