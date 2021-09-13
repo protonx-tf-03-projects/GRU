@@ -65,10 +65,9 @@ if __name__ == "__main__":
     for i in args.data_classes.keys():
         Dic_class[args.data_classes[i]] = i
     
-    # Use new Dictionary for choosing the feature( the output only have one which value > 0.5) 
-    for i in range(len_result):
-        if results[0][i] > 0.5:
-            print("The Review Sentence is: ", Dic_class[i])
-            break
+    # Use new Dictionary for choosing the feature 
+    index = np.argmax(results)
+    print("The Review Sentence is: ", Dic_class[index])
+           
 
 
