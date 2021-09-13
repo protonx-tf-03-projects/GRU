@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--checkpoint-folder", default='{}/tmp/checkpoints/'.format(home_dir), type=str)
 
-    parser.add_argument("--data-path", default='data/IMDB_Dataset_test.csv', type=str)
+    parser.add_argument("--data-path", default='data/IMDB_Dataset.csv', type=str)
     parser.add_argument("--data-name", default='review', type=str)
     parser.add_argument("--label-name", default='sentiment', type=str)
     parser.add_argument(

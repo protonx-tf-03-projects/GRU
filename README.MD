@@ -106,6 +106,8 @@ There are some `important` arguments for the script you should consider when run
 
 ## IV. Predict Process
 
+Ensure you have already trained for the `tmp/model/${model}` was created after training successful
+
 Predicting script:
 
 ```python
@@ -132,6 +134,11 @@ Example: other predicting with LSTM model:
 ```
 
 ## V. Result and Comparision
+
+The arguments that we used for train:
+- epoch: `10`
+- loss: `rmsprop`
+- metrics: `['accuracy', 'mse']`
 
 ### 1. GRU
 ```
