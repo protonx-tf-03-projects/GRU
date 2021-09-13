@@ -41,7 +41,30 @@ conda activate gru
 
 ## II.  Set up your dataset
 
-- Guide user how to download your data and set the data pipeline <--- **FIXME**
+- Your dataset must be in type of ".csv" file
+- You should remember the directory where you put the dataset in order to use it for training
+	+ The default directory is "../data/.."
+	+ For example: "../data/IMDB_Dataset.csv"
+- You can use the IMDB_Dataset.csv or IMDB_Dataset_mini.csv which are available in "../data"
+- You can download and find more information about IMDB_Dataset at: https://www.kaggle.com/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews 
+
+- If you use another dataset remember that your dataset should be same as this architecture
+
+| data_name   |   data_label      |
+|----------|:-------------:|
+| Training sentence 1       |  label 1|
+| Trainning sentence 2              |    label 2 |
+| ...              |    ... |
+
+- For example: The IMDB_Dataset.csv
+
+| review   |   sentiment      |
+|----------|:-------------:|
+| What a disappointment! Piper Perabo...       |  negative|
+| I love this movie. It was one of my favorite m...             |    positive |
+| ...              |    ... |
+	
+
 - References: [NLP](https://github.com/bangoc123/transformer) and [CV](https://github.com/bangoc123/mlp-mixer)
 
 ## III. Training Process
