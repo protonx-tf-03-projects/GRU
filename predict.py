@@ -1,10 +1,10 @@
 import os
 from argparse import ArgumentParser
 import tensorflow as tf
-from model.gru_rnn import GRU_RNN
 from data import Dataset
 import pandas as pd
 import numpy as np
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 if __name__ == "__main__":
     parser = ArgumentParser()

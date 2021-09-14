@@ -123,6 +123,6 @@ if __name__ == "__main__":
     model.save(f"{args.model_folder}/{args.model}.h5py")
 
     # Do Prediction
-    print('==============Evaluate=============')
-    model.evaluate(val_ds, batch_size=128)
+    # print('==============Evaluate=============')
+    # model.evaluate(val_ds, batch_size=128)
 

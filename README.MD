@@ -1,4 +1,5 @@
 # GRU
+Implemention for Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling. [Read paper](https://arxiv.org/pdf/1412.3555.pdf)
 
 Library Logo <--- **FIXME**
 
@@ -11,9 +12,12 @@ Compare and evaluate recurrent neural networks (RNN) with different types of rec
 - Long short-term memory (LSTM)
 - Tanh
 
-Slide about your project (if it's available) <--- **FIXME**
+Slide about our project [vietnamese](https://docs.google.com/document/d/1GHZIDAyfCL2O-PVPVyQJdcQ8FxdkPGA4-AQd3cCYoMQ/edit?usp=sharing)
 
-Architecture Image  <--- **FIXME**
+Architecture
+<p align="center">
+    <img src='./assets/architecture.png' width="90%" class="center">
+</p>
 
 Advisors:
 - Github: [bangoc123](https://github.com/bangoc123)
@@ -187,15 +191,15 @@ Epoch 10/10
 
 ```
 
-### 4. Comments about these results
+### 4. Results
 
-- Base on the results of Training with 3 kinds of model, we can figure out that there are differences about the Accuaracy between them
+- Base on the results of Training with 3 kinds of model, we can figure out that there are differences about the Accuracy between them
 	+ Both GRU and LSTM have high efficiency with the highest val_accuracy is 0.8936 and 0.8795 , respectively.    
 	+ Tanh is the opposite, the val_accuracy is really low with just around 0.54 
 - The results clearly demonstrated the superiority of the gated units; both the LSTM unit and GRU, over the traditional tanh unit.
 - However, we could not make concrete conclusion on which of the two gating units was better.
 
-## VI. Running Test
+<!-- ## VI. Running Test
 
 When you want to modify the model, you need to run the test to make sure your change does not affect the whole system.
 
@@ -203,6 +207,6 @@ In the `./folder-name` **(FIXME)** folder please run:
 
 ```bash
 pytest
-```
+``` -->
 
 
