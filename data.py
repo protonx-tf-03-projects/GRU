@@ -21,16 +21,24 @@ class Dataset:
     self.sentences_tokenizer = None
 
   def labels_encode(self, labels, data_classes):
+    '''Encode labels to categorical'''
     labels.replace(data_classes, inplace=True)
 
     labels_target = labels.values
     labels_target = tf.keras.utils.to_categorical(labels_target)
 
     return labels_target
-    
+  
+  def removeHTML(self, text):
+    '''Remove html tags from a string'''
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
+
   def sentence_cleaning(self, sentence):
+    '''Cleaning text'''
     out_sentence = []
     for sent in tqdm(sentence):
+      sent = self.removeHTML(sent)
       text = re.sub("[^a-zA-Z]", " ", sent)
       word = word_tokenize(text.lower())
 
@@ -42,6 +50,7 @@ class Dataset:
     return (out_sentence)
 
   def data_processing(self, sentences, labels):
+    '''Preprocessing both text and labels'''
     print("|--data_processing ...")
     sentences = self.sentence_cleaning(sentences)
     labels = self.labels_encode(labels, data_classes=self.data_classes)
