@@ -107,5 +107,8 @@ class Dataset:
     val_dataset = tf.data.Dataset.from_tensor_slices((tf.convert_to_tensor(
         X_val, dtype=tf.int64), tf.convert_to_tensor(y_val, dtype=tf.int64)))
     val_dataset = val_dataset.shuffle(buffer_size).batch(batch_size)
-
+    
+    with open('label.json', 'w') as f:
+            json.dump(self.label_dict, f)
+   
     return train_dataset, val_dataset
