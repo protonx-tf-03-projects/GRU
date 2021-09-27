@@ -19,6 +19,7 @@ class Dataset:
     self.vocab_size = vocab_size
     self.data_classes = data_classes
     self.sentences_tokenizer = None
+    self.label_dict = None
 
   def labels_encode(self, labels, data_classes):
     '''Encode labels to categorical'''
