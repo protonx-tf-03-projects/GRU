@@ -10,14 +10,14 @@ Compare and evaluate recurrent neural networks (RNN) with different types of rec
 - Long short-term memory (LSTM)
 - Hyperbolic tangent (tanh)
 
-We also implement our project in [vietnamese](https://docs.google.com/document/d/1GHZIDAyfCL2O-PVPVyQJdcQ8FxdkPGA4-AQd3cCYoMQ/edit?usp=sharing).
+We also implement our project in [Vietnamese](https://docs.google.com/document/d/1GHZIDAyfCL2O-PVPVyQJdcQ8FxdkPGA4-AQd3cCYoMQ/edit?usp=sharing).
 
 Architecture Used
 <p align="center">
     <img src='./assets/architecture.png' width="90%" class="center">
 </p>
 
-Advisors: [Ngoc Nguyen](https://github.com/bangoc123)
+Advisor: [Ngoc Nguyen](https://github.com/bangoc123)
 
 Authors: [Duong Tran](https://github.com/ttduongtran), [Dung Nguyen](https://github.com/anhdungpro97), [Sang Nguyen](https://github.com/joeeislovely)
 
@@ -31,7 +31,7 @@ Authors: [Duong Tran](https://github.com/ttduongtran), [Dung Nguyen](https://git
 conda env create -f environment.yml
 ```
 
-- Step 2: Activate environment
+- Step 2: Activate the environment
 ```
 conda activate gru
 ```
