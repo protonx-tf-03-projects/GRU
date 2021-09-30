@@ -1,5 +1,6 @@
 # Libraries imported.
 import re
+import os
 import tensorflow as tf
 import pandas as pd
 import nltk
@@ -7,7 +8,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
-
+import json
 from constant import *
 
 nltk.download('punkt')
@@ -34,13 +35,37 @@ class Dataset:
     '''Remove html tags from a string'''
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
+  
+  def removePunc(self, text):
+        #Remove punction in a texts
+        return re.sub(r'[^\w\s]','', text)
+  
+  def removeURLs(self, text):
+        #Remove url link in texts
+        return re.sub(r'^https?:\/\/.*[\r\n]*', '', text, flags=re.MULTILINE)
+
+  def removeEmoji(self, data):
+        #Each emoji icon has their unique code
+        #Gather all emoji icon code and remove it in texts
+        cleanr= re.compile("["
+                           u"\U0001F600-\U0001F64F"  
+                           u"\U0001F300-\U0001F5FF"
+                           u"\U0001F680-\U0001F6FF"  
+                           u"\U0001F1E0-\U0001F1FF"  
+                           u"\U00002702-\U000027B0"
+                           u"\U000024C2-\U0001F251"
+                           "]+", flags=re.UNICODE)
+        return re.sub(cleanr, '',data)
 
   def sentence_cleaning(self, sentence):
     '''Cleaning text'''
     out_sentence = []
-    for sent in tqdm(sentence):
-      sent = self.removeHTML(sent)
-      text = re.sub("[^a-zA-Z]", " ", sent)
+    for line in tqdm(sentence):
+      line = self.removeHTML(line)
+      line = self.removePunc(line)
+      line = self.removeURLs(line)
+      line = self.removeEmoji(line)
+      text = re.sub("[^a-zA-Z]", " ", line)
       word = word_tokenize(text.lower())
 
       lemmatizer = WordNetLemmatizer()
@@ -83,18 +108,18 @@ class Dataset:
 
     # Cleaning
     sentences, labels = self.data_processing(sentences, labels)
-    
-    # Saving label dict
-    with open('label.json', 'w') as f:
-        json.dump(self.label_dict, f)
         
     # Tokenizing
     self.sentences_tokenizer = self.build_tokenizer(sentences, self.vocab_size)
     tensor = self.tokenize(
         self.sentences_tokenizer, sentences, max_length)
-    
+
     print("Done! Next to ... ")
     print(" ")
+
+    # Saving label dict
+    with open('label.json', 'w') as f:
+        json.dump(self.label_dict, f)
         
     return tensor, labels
                                                                   

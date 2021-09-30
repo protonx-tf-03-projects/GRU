@@ -1,7 +1,5 @@
-# GRU
-Implemention for Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling. [Read paper](https://arxiv.org/pdf/1412.3555.pdf)
-
-Library Logo <--- **FIXME**
+# Gated Reccurrent Unit Application in Sentiment Analysis
+Implemention for Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling. Read the paper [here](https://arxiv.org/pdf/1412.3555.pdf).
 
 <p align="center">
     <img src='https://storage.googleapis.com/protonx-cloud-storage/transformer/protonx-transf.png' width=200 class="center">
@@ -10,49 +8,44 @@ Library Logo <--- **FIXME**
 Compare and evaluate recurrent neural networks (RNN) with different types of recurrent units: 
 - Gated recurrent unit (GRU)
 - Long short-term memory (LSTM)
-- Tanh
+- Hyperbolic tangent (tanh)
 
-Slide about our project [vietnamese](https://docs.google.com/document/d/1GHZIDAyfCL2O-PVPVyQJdcQ8FxdkPGA4-AQd3cCYoMQ/edit?usp=sharing)
+We also implement our project in [vietnamese](https://docs.google.com/document/d/1GHZIDAyfCL2O-PVPVyQJdcQ8FxdkPGA4-AQd3cCYoMQ/edit?usp=sharing).
 
-Architecture
+Architecture Used
 <p align="center">
     <img src='./assets/architecture.png' width="90%" class="center">
 </p>
 
-Advisors:
-- Github: [bangoc123](https://github.com/bangoc123)
-- Email: protonxai@gmail.com
+Advisors: [Ngoc Nguyen](https://github.com/bangoc123)
 
-Authors:
-| # | Name | Github | Email |
-|---|------|--------|-------|
-|1|Sang Nguyen|[joeeislovely](https://github.com/joeeislovely)|nguyenminh.sangatpa@gmail.com|
-|2|Dung Nguyen|[anhdungpro97](https://github.com/anhdungpro97)|anhdung1951997@gmail.com|
-|3|Duong Tran|[ttduongtran](https://github.com/ttduongtran)|ttduongtran@gmail.com|
+Authors: [Duong Tran](https://github.com/ttduongtran), [Dung Nguyen](https://github.com/anhdungpro97), [Sang Nguyen](https://github.com/joeeislovely)
 
-## I.  Set up environment
 
-- Step 1: Create the environment (Make sure you have installed [Miniconda](https://docs.conda.io/en/latest/miniconda.html))
+
+## I.  Setup Environment
+
+- Step 1: Create the environment (Make sure you have installed the lastest [Miniconda](https://docs.conda.io/en/latest/miniconda.html))
 
 ```python
 conda env create -f environment.yml
 ```
 
-- Step 2: Active environment
+- Step 2: Activate environment
 ```
 conda activate gru
 ```
 
 ## II.  Set up your dataset
 
-- Your dataset must be in type of ".csv" file
-- You should remember the directory where you put the dataset in order to use it for training
-	+ The default directory is "../data/.."
-	+ For example: "../data/IMDB_Dataset.csv"
-- You can use the IMDB_Dataset.csv or IMDB_Dataset_mini.csv which are available in "../data"
-- You can download and find more information about IMDB_Dataset at: https://www.kaggle.com/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews 
+- Your dataset must be a `.csv` file.
+- You should remember the directory where you put the dataset in order to use it for training.
+	+ The default directory is `../data/..`.
+	+ For example: `../data/IMDB_Dataset.csv`.
+- You can use the default `IMDB_Dataset.csv` or `IMDB_Dataset_mini.csv` which are available in `../data`.
+- More about the IMDB_Dataset at [Kaggle](https://www.kaggle.com/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews). 
 
-- If you use another dataset remember that your dataset should be same as this architecture
+- If you use another dataset, remember that your dataset should be same as this architecture.
 
 | data_name   |   data_label      |
 |----------|:-------------:|
@@ -60,7 +53,7 @@ conda activate gru
 | Trainning sentence 2              |    label 2 |
 | ...              |    ... |
 
-- For example: The IMDB_Dataset.csv
+- For example: `IMDB_Dataset.csv`
 
 | review   |   sentiment      |
 |----------|:-------------:|
@@ -69,7 +62,7 @@ conda activate gru
 | ...              |    ... |
 	
 
-- References: [NLP](https://github.com/bangoc123/transformer) and [CV](https://github.com/bangoc123/mlp-mixer)
+- References: [ProtonX-Transformer](https://github.com/bangoc123/transformer) and [ProtonX-NLPMixer](https://github.com/bangoc123/mlp-mixer)
 
 ## III. Training Process
 
@@ -99,13 +92,13 @@ Training script:
 
 ```
 
-Example for IMDB dataset:
+Example for `IMDB dataset`:
 
 ```python
 !python train.py --epochs 20 --model gru --optimizer rmsprop --units 128 --embedding-size 128 --vocab-size=10000 --max-length 256 --learning-rate 0.0008  --test-size 0.2 --batch-size 32 --buffer-size 128
 ```
 
-Example others dataset:
+Example for others dataset:
 
 ```python
 !python train.py --epochs 20 --model gru --learning-rate 0.0008 --optimizer rmsprop --model-folder /tmp/model/ --checkpoint-folder /tmp/checkpoints/ --data-path data/IMDB_Dataset.csv --data-name review  --label-name sentiment --data-classes {'negative': 0, 'positive': 1} --num-class 2 --units 128 --embedding-size 128 --vocab-size=10000 --max-length 256  --test-size 0.2 --batch-size 32 --buffer-size 128
@@ -131,11 +124,9 @@ There are some `important` arguments for the script you should consider when run
 - `test-size`: Split to train (1-x) and test (x) dataset with ratio. Default is `0.2`
 - `batch-size`: The batch size of the dataset. Default value `64`
 
-## IV. Predict Process
+## IV. Prediction Process
 
-Ensure you have already trained for the `tmp/model/${model}` was created after training successful
-
-Predicting script:
+Ensure you already have trained for the `tmp/model/${model}` was created after successful training process. Use the script below to predict:
 
 ```python
 
@@ -148,13 +139,13 @@ Predicting script:
                 --max-length ${max_length}
 
 ```
-Example: predicting with GRU model:
+Using GRU model for predictions:
 
 ```python
 !python predict.py --model-path tmp/model/gru.h5py --review-sentence "The plot of film is really good"
 ```
 
-Example: other predicting with LSTM model:
+Other predictions with LSTM:
 
 ```python
 !python predict.py --model-path tmp/model/lstm.h5py --review-sentence "The plot of film is really good"
@@ -216,11 +207,11 @@ Epoch 10/10
 
 ### 4. Results
 
-- Base on the results of Training with 3 kinds of model, we can figure out that there are differences about the Accuracy between them
-	+ Both GRU and LSTM have high efficiency with the highest val_accuracy is 0.8936 and 0.8795 , respectively.    
-	+ Tanh is the opposite, the val_accuracy is really low with just around 0.54 
-- The results clearly demonstrated the superiority of the gated units; both the LSTM unit and GRU, over the traditional tanh unit.
-- However, we could not make concrete conclusion on which of the two gating units was better.
+- Base on the results of Training with 3 kinds of model, we explored that there are differences about the accuracy:
+	+ Both GRU and LSTM have high efficiency with the highest `val_accuracy` is 0.8936 and 0.8795, respectively.    
+	+ The tanh model is the opposite, which its `val_accuracy` is really low with just around 0.54 
+- The results clearly demonstrated the superiority of the gated-RNN units; both the LSTM unit and GRU, over the traditional tanh method.
+- However, we cannot make a concrete conclusion on which of the two gating units was better.
 
 <!-- ## VI. Running Test
 
