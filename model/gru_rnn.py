@@ -19,21 +19,20 @@ class GRU(tf.keras.layers.Layer):
     self.inp_shape = inp_shape
     self.W = self.add_weight("W", shape=(3, self.units, self.inp_shape))
     self.U = self.add_weight("U", shape=(3, self.inp_shape, self.units))
-    self.b = self.add_weight("b", shape=(self.units, 1))
-
+    
   def call(self, pre_h, x):
 
     # Update gate: Decide how much the unit updates its activation, or content
     z_t = tf.nn.sigmoid(
-        tf.matmul(x, tf.transpose(self.W[0])) + tf.matmul(pre_h, tf.transpose(self.U[0])) + self.b[0])
+        tf.matmul(x, tf.transpose(self.W[0])) + tf.matmul(pre_h, tf.transpose(self.U[0])))
 
     # Reset gate: Forget the previously state
     r_t = tf.nn.sigmoid(
-        tf.matmul(x, tf.transpose(self.W[1])) + tf.matmul(pre_h, tf.transpose(self.U[1])) + self.b[1])
+        tf.matmul(x, tf.transpose(self.W[1])) + tf.matmul(pre_h, tf.transpose(self.U[1])))
 
     # Current memory content
     h_proposal = tf.nn.tanh(
-        tf.matmul(x, tf.transpose(self.W[2])) + tf.matmul(tf.multiply(r_t, pre_h), tf.transpose(self.U[2])) + self.b[2])
+        tf.matmul(x, tf.transpose(self.W[2])) + tf.matmul(tf.multiply(r_t, pre_h), tf.transpose(self.U[2])))
 
     # Current hidden state
     h_t = tf.multiply((1 - z_t), pre_h) + tf.multiply(z_t, h_proposal)
@@ -42,15 +41,9 @@ class GRU(tf.keras.layers.Layer):
 
 # Define GRU model
 class GRU_RNN(tf.keras.Model):
-  '''
-    Arguments
-      units (int):
-      embedding_size (int):
-      vocab_size (int):
-      input_length (int):
-      num_class (int):
-    Output
-  '''
+  """
+    Using GRU cell and Dense layers for training model
+  """
   def __init__(self, units, embedding_size, vocab_size, input_length, num_class):
     super(GRU_RNN, self).__init__()
     self.input_length = input_length
@@ -69,15 +62,21 @@ class GRU_RNN(tf.keras.Model):
 
     # Pass each hidden state through Rnn basic
     self.classification_layer = tf.keras.models.Sequential([
-        tf.keras.layers.Dense(32, input_shape=(units,), activation="elu"),
+        tf.keras.layers.Dense(32, input_shape=(units,), activation="relu"),
         tf.keras.layers.Dropout(0.2),
         tf.keras.layers.Dense(num_class, activation='softmax')
     ])
 
   def call(self, sentence):
-    '''
-      sentence
-    '''
+    """
+      parameters: sentence need to trained
+        type: Tensor
+        shape: ( batch_size, input_length)
+
+      return: Predition by lastest of model
+        type: Tensor
+        shape: (batch_size,1)
+    """
     batch_size = tf.shape(sentence)[0]
 
     # Initial hidden_state
@@ -94,6 +93,6 @@ class GRU_RNN(tf.keras.Model):
 
     # Predition by lastest hidden_state
     output = self.classification_layer(h)
-    print("===output_layer===", output)
+    # print("===output_layer===", output)
 
     return output

@@ -2,6 +2,8 @@ import os
 from argparse import ArgumentParser
 import tensorflow as tf
 from model.gru_rnn import GRU_RNN
+from model.lstm_rnn import LSTM_RNN
+from model.tanh_rnn import Tanh_RNN
 from data import Dataset
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -37,7 +39,7 @@ if __name__ == "__main__":
     parser.add_argument("--test-size", default=0.2, type=float)
     parser.add_argument("--batch-size", default=32, type=int)
     parser.add_argument("--buffer-size", default=128, type=int)
-    parser.add_argument("--epochs", default=12, type=int)
+    parser.add_argument("--epochs", default=20, type=int)
 
     args = parser.parse_args()
 
@@ -69,13 +71,11 @@ if __name__ == "__main__":
 
     # Initializing model
     if args.model == 'lstm':
-      # LSTM model
-      # model = LSTM()
-      pass
+      model = LSTM_RNN(args.units, args.embedding_size,
+                       sentences_tokenizer_size, input_length, num_class=args.num_class)
     elif args.model == 'tanh':
-      # Tanh model
-      # model = Tanh()
-      pass 
+      model = Tanh_RNN(args.units, args.embedding_size,
+                       sentences_tokenizer_size, input_length, num_class=args.num_class)
     else:
       model = GRU_RNN(args.units, args.embedding_size,
                       sentences_tokenizer_size, input_length, num_class=args.num_class)
@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     # Save weights, every 4-epochs.
     checkpoint = tf.keras.callbacks.ModelCheckpoint(
-        checkpoint_path, verbose=1, save_weights_only=True, save_freq=5)
+        checkpoint_path, verbose=1, save_weights_only=True, period=5)
 
     # Training model
     model.fit(train_ds, epochs=args.epochs,
@@ -123,5 +123,6 @@ if __name__ == "__main__":
     model.save(f"{args.model_folder}/{args.model}.h5py")
 
     # Do Prediction
-
+    # print('==============Evaluate=============')
+    # model.evaluate(val_ds, batch_size=128)
 
