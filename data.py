@@ -1,6 +1,7 @@
 # Libraries imported.
 import re
 import os
+import io
 import tensorflow as tf
 import pandas as pd
 import nltk
@@ -15,20 +16,32 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 class Dataset:
-  def __init__(self, data_path, vocab_size, data_classes):
+  def __init__(self, data_path, vocab_size, data_classes, vocab_folder):
     self.data_path = data_path
     self.vocab_size = vocab_size
     self.data_classes = data_classes
     self.sentences_tokenizer = None
     self.label_dict = None
+    self.vocab_folder = vocab_folder
+    self.save_tokenizer_path = '{}tokenizer.json'.format(self.vocab_folder)
+    self.save_label_path = 'label.json'
 
+    if os.path.isfile(self.save_tokenizer_path):
+      with open(self.save_tokenizer_path) as file:
+        data = json.load(file)
+        self.sentences_tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(data)
+
+    if os.path.isfile(self.save_label_path):
+      with open(self.save_label_path) as file:
+        self.label_dict = json.load(file)
+            
   def labels_encode(self, labels, data_classes):
     '''Encode labels to categorical'''
     labels.replace(data_classes, inplace=True)
 
     labels_target = labels.values
     labels_target = tf.keras.utils.to_categorical(labels_target)
-
+    
     return labels_target
   
   def removeHTML(self, text):
@@ -105,22 +118,38 @@ class Dataset:
     datastore = pd.read_csv(self.data_path)
     sentences = datastore[data_name]
     labels = datastore[label_name]
+    self.label_dict = dict((item, idx)
+                           for idx, item in enumerate(set(labels)))
 
     # Cleaning
     sentences, labels = self.data_processing(sentences, labels)
-        
+
     # Tokenizing
     self.sentences_tokenizer = self.build_tokenizer(sentences, self.vocab_size)
     tensor = self.tokenize(
         self.sentences_tokenizer, sentences, max_length)
 
-    print("Done! Next to ... ")
     print(" ")
+    print("Save tokenizer ... ")
+    
+    # Saving tokenizer
+    if not os.path.exists(self.vocab_folder):
+      try:
+        os.makedirs(self.vocab_folder)
+      except OSError as e:
+        raise IOError("Failed to create folders")
+
+    tokenizer_json = self.sentences_tokenizer.to_json()
+    with io.open(self.save_tokenizer_path, 'w', encoding='utf-8') as file:
+      file.write(json.dumps(tokenizer_json, ensure_ascii=False))
 
     # Saving label dict
     with open('label.json', 'w') as f:
-        json.dump(self.label_dict, f)
-        
+      json.dump(self.label_dict, f)
+
+    print("Done! Next to ... ")
+    print(" ")
+
     return tensor, labels
                                                                   
   def build_dataset(self, max_length=128, test_size=0.2, buffer_size=128, batch_size=128, data_name='review', label_name='sentiment'):

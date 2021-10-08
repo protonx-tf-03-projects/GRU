@@ -20,7 +20,8 @@ if __name__ == "__main__":
         "--model-folder", default='{}/tmp/model/'.format(home_dir), type=str)
     parser.add_argument(
         "--checkpoint-folder", default='{}/tmp/checkpoints/'.format(home_dir), type=str)
-
+    parser.add_argument(
+        "--vocab-folder", default='{}/tmp/saved_vocab/'.format(home_dir), type=str)
     parser.add_argument("--data-path", default='data/IMDB_Dataset.csv', type=str)
     parser.add_argument("--data-name", default='review', type=str)
     parser.add_argument("--label-name", default='sentiment', type=str)
@@ -58,7 +59,8 @@ if __name__ == "__main__":
     print('===========================')
     
     # Prepair dataset
-    dataset = Dataset(args.data_path, args.vocab_size, data_classes=args.data_classes)
+    dataset = Dataset(args.data_path, args.vocab_size,
+                      args.data_classes, args.vocab_folder)
     
     train_ds, val_ds = dataset.build_dataset(
         args.max_length, args.test_size, args.buffer_size, args.batch_size, args.data_name, args.label_name)
