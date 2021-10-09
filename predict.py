@@ -11,10 +11,6 @@ if __name__ == "__main__":
     parser.add_argument("--model-path", default="tmp/model/gru.h5py", type=str)
     parser.add_argument(
         "--vocab-path", default='tmp/saved_vocab/tokenizer.json', type=str)
-    parser.add_argument(
-        "--data-classes", default={'negative': 0, 'positive': 1}, type=set)
-    parser.add_argument("--data-name", default='review', type=str)
-
     parser.add_argument("--max-length", default=256, type=int)
 
     # FIXME
@@ -37,7 +33,7 @@ if __name__ == "__main__":
     print('===========================')
 
     # FIXME
-    # Create Tokenizer
+    # Load Tokenizer
     with open(args.vocab_path) as file:
         data = json.load(file)
         tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(data)
@@ -57,15 +53,17 @@ if __name__ == "__main__":
     print('---------------------Prediction Result: -------------------')
     results = model.predict(input_1)
 
-    # Create new dictionary for data_classes
-    len_result = len(args.data_classes)
-    Dic_class = {}
-    for i in args.data_classes.keys():
-        Dic_class[args.data_classes[i]] = i
+    # Load old label dictionary
+    with open('label.json') as f:
+        label_dict = json.load(f)
+    # Reverse label dictionary
+    new_label_dict = {}
+    for i in label_dict.keys():
+        new_label_dict[label_dict[i]] = i
 
     # Use new Dictionary for choosing the feature
     index = np.argmax(results)
-    print("The Review Sentence is: ", Dic_class[index])
+    print("The Review Sentence is: ", new_label_dict[index])
 
 
 
