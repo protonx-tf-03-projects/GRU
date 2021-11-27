@@ -66,6 +66,11 @@ conda activate gru
 
 ## III. Training Process
 
+Review training on colab
+
+<a href="https://colab.research.google.com/drive/1ecjcw6CfNTFiezrft_Txm7Ru99RGTRIA?usp=sharing"><img src="https://storage.googleapis.com/protonx-cloud-storage/colab_favicon_256px.png" width=120> </a>
+
+
 Training script:
 
 
