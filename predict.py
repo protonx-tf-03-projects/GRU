@@ -1,22 +1,16 @@
 import os
 from argparse import ArgumentParser
 import tensorflow as tf
-from data import Dataset
-import pandas as pd
 import numpy as np
+import json
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("--review-sentence", default= "The actors are really famous", type=str)
+    parser.add_argument("--review-sentence", default="The actors are really famous", type=str)
     parser.add_argument("--model-path", default="tmp/model/gru.h5py", type=str)
-
     parser.add_argument(
-        "--data-classes", default={'negative': 0, 'positive': 1}, type=set)
-    parser.add_argument("--data-path", default='data/IMDB_Dataset.csv', type=str)
-    parser.add_argument("--data-name", default='review', type=str)
-
-    parser.add_argument("--vocab-size", default=10000, type=int)
+        "--vocab-path", default='tmp/saved_vocab/tokenizer.json', type=str)
     parser.add_argument("--max-length", default=256, type=int)
 
     # FIXME
@@ -35,39 +29,41 @@ if __name__ == "__main__":
 
     # print arguments
     for i, arg in enumerate(vars(args)):
-      print('{}. {}: {}'.format(i, arg, vars(args)[arg]))
+        print('{}. {}: {}'.format(i, arg, vars(args)[arg]))
     print('===========================')
 
     # FIXME
-    # Create Tokenizer
-    datastore = pd.read_csv(args.data_path)
-    sentences = datastore[args.data_name]
-
-    dataset = Dataset(args.data_path, args.vocab_size, data_classes=args.data_classes)
-    tokenizer = dataset.build_tokenizer(sentences, args.vocab_size, char_level=False)
+    # Load Tokenizer
+    with open(args.vocab_path) as file:
+        data = json.load(file)
+        tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(data)
 
     # Tokenize the reviews_sentence
     test_sentence = []
     test_sentence.append(args.review_sentence)
-    input_1 = dataset.tokenize(tokenizer, test_sentence, args.max_length)
+    test_sentence = tokenizer.texts_to_sequences(test_sentence)
+    input_1 = tf.keras.preprocessing.sequence.pad_sequences(test_sentence, maxlen=args.max_length,
+                                                  padding='post', truncating='post')
     input_1 = input_1.astype('int64')
-    
+
     # Load model
     model = tf.keras.models.load_model(args.model_path)
 
-    #Predicting
+    # Predicting
     print('---------------------Prediction Result: -------------------')
-    results = model.predict(input_1)  
-    
-    #Create new dictionary for data_classes
-    len_result = len(args.data_classes)
-    Dic_class = {}
-    for i in args.data_classes.keys():
-        Dic_class[args.data_classes[i]] = i
-    
-    # Use new Dictionary for choosing the feature 
+    results = model.predict(input_1)
+
+    # Load old label dictionary
+    with open('label.json') as f:
+        label_dict = json.load(f)
+    # Reverse label dictionary
+    new_label_dict = {}
+    for i in label_dict.keys():
+        new_label_dict[label_dict[i]] = i
+
+    # Use new Dictionary for choosing the feature
     index = np.argmax(results)
-    print("The Review Sentence is: ", Dic_class[index])
-           
+    print("The Review Sentence is: ", new_label_dict[index])
+
 
 
